@@ -10,7 +10,6 @@ defmodule LepatriinuWeb.UserLoginLiveTest do
 
       assert html =~ "Log in"
       assert html =~ "Register"
-      assert html =~ "Forgot your password?"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -18,7 +17,7 @@ defmodule LepatriinuWeb.UserLoginLiveTest do
         conn
         |> log_in_user(user_fixture())
         |> live(~p"/users/log_in")
-        |> follow_redirect(conn, "/")
+        |> follow_redirect(conn, "/polls")
 
       assert {:ok, _conn} = result
     end
@@ -26,17 +25,17 @@ defmodule LepatriinuWeb.UserLoginLiveTest do
 
   describe "user login" do
     test "redirects if user login with valid credentials", %{conn: conn} do
-      password = "123456789abcd"
-      user = user_fixture(%{password: password})
+      name = "Legolas"
+      user = user_fixture(%{name: name})
 
       {:ok, lv, _html} = live(conn, ~p"/users/log_in")
 
       form =
-        form(lv, "#login_form", user: %{email: user.email, password: password, remember_me: true})
+        form(lv, "#login_form", user: %{name: user.name, remember_me: true})
 
       conn = submit_form(form, conn)
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/polls"
     end
 
     test "redirects to login page with a flash error if there are no valid credentials", %{
@@ -45,13 +44,11 @@ defmodule LepatriinuWeb.UserLoginLiveTest do
       {:ok, lv, _html} = live(conn, ~p"/users/log_in")
 
       form =
-        form(lv, "#login_form",
-          user: %{email: "test@email.com", password: "123456", remember_me: true}
-        )
+        form(lv, "#login_form", user: %{name: ""})
 
       conn = submit_form(form, conn)
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid name"
 
       assert redirected_to(conn) == "/users/log_in"
     end
@@ -68,20 +65,6 @@ defmodule LepatriinuWeb.UserLoginLiveTest do
         |> follow_redirect(conn, ~p"/users/register")
 
       assert login_html =~ "Register"
-    end
-
-    test "redirects to forgot password page when the Forgot Password button is clicked", %{
-      conn: conn
-    } do
-      {:ok, lv, _html} = live(conn, ~p"/users/log_in")
-
-      {:ok, conn} =
-        lv
-        |> element(~s|main a:fl-contains("Forgot your password?")|)
-        |> render_click()
-        |> follow_redirect(conn, ~p"/users/reset_password")
-
-      assert conn.resp_body =~ "Forgot your password?"
     end
   end
 end

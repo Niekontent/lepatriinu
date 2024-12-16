@@ -11,17 +11,16 @@ defmodule LepatriinuWeb.UserSessionControllerTest do
     test "logs the user in", %{conn: conn, user: user} do
       conn =
         post(conn, ~p"/users/log_in", %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"name" => user.name}
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/polls"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, ~p"/")
       response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ ~p"/users/settings"
+      assert response =~ user.name
       assert response =~ ~p"/users/log_out"
     end
 
@@ -29,14 +28,13 @@ defmodule LepatriinuWeb.UserSessionControllerTest do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{
-            "email" => user.email,
-            "password" => valid_user_password(),
+            "name" => user.name,
             "remember_me" => "true"
           }
         })
 
       assert conn.resp_cookies["_lepatriinu_web_user_remember_me"]
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/polls"
     end
 
     test "logs the user in with return to", %{conn: conn, user: user} do
@@ -45,8 +43,7 @@ defmodule LepatriinuWeb.UserSessionControllerTest do
         |> init_test_session(user_return_to: "/foo/bar")
         |> post(~p"/users/log_in", %{
           "user" => %{
-            "email" => user.email,
-            "password" => valid_user_password()
+            "name" => user.name
           }
         })
 
@@ -60,37 +57,21 @@ defmodule LepatriinuWeb.UserSessionControllerTest do
         |> post(~p"/users/log_in", %{
           "_action" => "registered",
           "user" => %{
-            "email" => user.email,
-            "password" => valid_user_password()
+            "name" => user.name
           }
         })
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/polls"
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Account created successfully"
-    end
-
-    test "login following password update", %{conn: conn, user: user} do
-      conn =
-        conn
-        |> post(~p"/users/log_in", %{
-          "_action" => "password_updated",
-          "user" => %{
-            "email" => user.email,
-            "password" => valid_user_password()
-          }
-        })
-
-      assert redirected_to(conn) == ~p"/users/settings"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password updated successfully"
     end
 
     test "redirects to login page with invalid credentials", %{conn: conn} do
       conn =
         post(conn, ~p"/users/log_in", %{
-          "user" => %{"email" => "invalid@email.com", "password" => "invalid_password"}
+          "user" => %{"name" => ""}
         })
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid name"
       assert redirected_to(conn) == ~p"/users/log_in"
     end
   end

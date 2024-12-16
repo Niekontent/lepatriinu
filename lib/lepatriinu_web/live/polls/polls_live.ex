@@ -19,7 +19,7 @@ defmodule LepatriinuWeb.PollsLive do
             Ops! It seems there are no polls.
           </div>
         <% else %>
-          <.poll_tile :for={poll <- @polls} poll={poll} navigate={~p"/#{poll.id}"}/>
+          <.poll_tile :for={poll <- @polls} poll={poll} navigate={~p"/#{poll.id}"} />
         <% end %>
       </div>
 

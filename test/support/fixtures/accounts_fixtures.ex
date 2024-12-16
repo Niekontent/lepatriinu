@@ -4,14 +4,10 @@ defmodule Lepatriinu.AccountsFixtures do
   entities via the `Lepatriinu.Accounts` context.
   """
 
-  def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
+  def unique_user_name, do: "Galadriel_#{System.unique_integer()}"
 
   def valid_user_attributes(attrs \\ %{}) do
-    Enum.into(attrs, %{
-      email: unique_user_email(),
-      password: valid_user_password()
-    })
+    Enum.into(attrs, %{name: unique_user_name()})
   end
 
   def user_fixture(attrs \\ %{}) do

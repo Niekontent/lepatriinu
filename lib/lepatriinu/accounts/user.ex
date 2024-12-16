@@ -11,6 +11,7 @@ defmodule Lepatriinu.Accounts.User do
   def registration_changeset(user, attrs) do
     user
     |> cast(attrs, [:name])
+    |> validate_required([:name])
     |> unique_constraint(:name)
   end
 end

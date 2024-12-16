@@ -77,7 +77,7 @@ defmodule LepatriinuWeb.PollCreationLive do
     {:noreply, socket}
   end
 
-  def handle_event("add_option", params, socket) do
+  def handle_event("add_option", _params, socket) do
     options = socket.assigns.options ++ [""]
     {:noreply, assign(socket, options: options)}
   end
@@ -88,11 +88,7 @@ defmodule LepatriinuWeb.PollCreationLive do
         {:noreply, push_navigate(socket, to: "/")}
 
       {:error, _changeset} ->
-        socket =
-          socket
-          |> put_flash(:error, "dupa!")
-
-        {:noreply, socket}
+        {:noreply, put_flash(socket, :error, "Could not save the poll.")}
     end
   end
 end
