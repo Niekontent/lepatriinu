@@ -32,6 +32,7 @@ defmodule LepatriinuWeb.UserAuth do
     conn
     |> renew_session()
     |> put_token_in_session(token)
+    |> put_session(:user_id, user.id)
     |> maybe_write_remember_me_cookie(token, params)
     |> redirect(to: user_return_to || signed_in_path(conn))
   end
@@ -225,5 +226,5 @@ defmodule LepatriinuWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(_conn), do: ~p"/"
+  defp signed_in_path(_conn), do: ~p"/polls"
 end

@@ -7,17 +7,6 @@ defmodule LepatriinuWeb.UserRegistrationLive do
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Register for an account
-        <:subtitle>
-          Already registered?
-          <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
-            Log in
-          </.link>
-          to your account now.
-        </:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="registration_form"
@@ -27,15 +16,22 @@ defmodule LepatriinuWeb.UserRegistrationLive do
         action={~p"/users/log_in?_action=registered"}
         method="post"
       >
-        <.error :if={@check_errors}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
-
-        <.input field={@form[:name]} label="Name" required />
-
-        <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
-        </:actions>
+        <div class="bg-amber-100 border-2 border-solid border-black">
+          <div class="bg-sky-500 border-b-2 border-solid border-black px-2">
+            Sign up
+          </div>
+          <div class="py-6 flex flex-col items-center">
+            <input
+              type="text"
+              name="user[name]"
+              class="w-3/4 bg-amber-100 border-2 border-solid border-black focus:ring-transparent focus:border-black"
+              placeholder="Name"
+            />
+            <button class="border-2 border-solid border-black px-4 hover:bg-amber-400 w-3/4 mt-4">
+              Create an account
+            </button>
+          </div>
+        </div>
       </.simple_form>
     </div>
     """
