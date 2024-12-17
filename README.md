@@ -18,7 +18,7 @@ Lepatriinu is a simple polling application. The application should allow users t
 
 ## How does the application work
 
-User is able to register by the name. User is able to crate polls. Poll contains the question and minimum two options. 
+User is able to register by the name. User is able to create polls. Poll contains the question and minimum two options. 
 User is able to vote in the polls but only once per poll. After casting the vote user sees current results. 
 User sees real-time updates of the poll results.
 
