@@ -10,7 +10,7 @@ defmodule Lepatriinu.Factories do
 
   def user_factory do
     %User{
-      name: "Gandalf"
+      name: "Gandalf_#{System.unique_integer()}"
     }
   end
 

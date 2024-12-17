@@ -1,4 +1,9 @@
 defmodule LepatriinuWeb.Helpers.PollHelper do
+  @moduledoc """
+  Provides helper functions for polls.
+  """
+
+  @spec results_in_percentage(map()) :: map()
   def results_in_percentage(poll_results) do
     total = Enum.reduce(poll_results, 0, fn {_answer, count}, acc -> acc + count end)
 

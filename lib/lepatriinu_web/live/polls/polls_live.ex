@@ -3,7 +3,7 @@ defmodule LepatriinuWeb.PollsLive do
 
   import LepatriinuWeb.PollComponents
 
-  alias Lepatriinu.Polls
+  alias Lepatriinu.Polling
 
   @impl true
   def render(assigns) do
@@ -34,7 +34,7 @@ defmodule LepatriinuWeb.PollsLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    polls = Polls.get_all()
+    polls = Polling.current().get_all_polls()
 
     {:ok, assign(socket, polls: polls)}
   end

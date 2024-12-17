@@ -1,4 +1,8 @@
 defmodule Lepatriinu.Votes.Vote do
+  @moduledoc """
+  Ecto Vote schema.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 

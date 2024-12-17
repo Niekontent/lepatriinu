@@ -120,4 +120,19 @@ defmodule Lepatriinu.PollingTest do
       refute Polling.current().user_voted?(user.id, poll.id)
     end
   end
+
+  describe "count_poll_votes/1" do
+    test "returns counted votes for a poll" do
+      options = ["Dwalin", "Balin", "Fili", "Kili"]
+      poll = insert(:poll, options: options)
+      insert(:vote, poll: poll, selected_option: "Dwalin")
+      insert(:vote, poll: poll, selected_option: "Balin")
+      insert(:vote, poll: poll, selected_option: "Balin")
+
+      results = Polling.current().count_poll_votes(poll.id)
+
+      assert results["Balin"] == 2
+      assert results["Dwalin"] == 1
+    end
+  end
 end

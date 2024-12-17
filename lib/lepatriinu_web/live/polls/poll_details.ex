@@ -3,7 +3,6 @@ defmodule LepatriinuWeb.PollDetailsLive do
 
   import LepatriinuWeb.PollComponents
 
-  alias Lepatriinu.Polls
   alias Lepatriinu.Polling
   alias LepatriinuWeb.Helpers.PollHelper
 
@@ -28,7 +27,7 @@ defmodule LepatriinuWeb.PollDetailsLive do
   def mount(%{"poll_id" => id}, session, socket) do
     %{"user_id" => user_id} = session
 
-    poll = Polls.get(id)
+    poll = Polling.current().get_poll(id)
     user_voted? = Polling.current().user_voted?(user_id, poll.id)
 
     percentage_results =

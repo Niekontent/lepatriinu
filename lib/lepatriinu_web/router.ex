@@ -26,22 +26,6 @@ defmodule LepatriinuWeb.Router do
     live "/:poll_id", PollDetailsLive, :show
   end
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:lepatriinu, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
-
-    scope "/dev" do
-      pipe_through :browser
-
-      live_dashboard "/dashboard", metrics: LepatriinuWeb.Telemetry
-    end
-  end
-
   ## Authentication routes
 
   scope "/", LepatriinuWeb do
@@ -51,21 +35,9 @@ defmodule LepatriinuWeb.Router do
       on_mount: [{LepatriinuWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
-      # live "/users/reset_password", UserForgotPasswordLive, :new
-      # live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end
 
     post "/users/log_in", UserSessionController, :create
-  end
-
-  scope "/", LepatriinuWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    live_session :require_authenticated_user,
-      on_mount: [{LepatriinuWeb.UserAuth, :ensure_authenticated}] do
-      # live "/users/settings", UserSettingsLive, :edit
-      # live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-    end
   end
 
   scope "/", LepatriinuWeb do

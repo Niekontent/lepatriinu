@@ -2,6 +2,7 @@ defmodule LepatriinuWeb.PollCreationLive do
   use LepatriinuWeb, :live_view
 
   alias Lepatriinu.Polls.Poll
+  alias Lepatriinu.Polling
 
   @impl true
   def mount(_params, _session, socket) do
@@ -83,7 +84,7 @@ defmodule LepatriinuWeb.PollCreationLive do
   end
 
   def handle_event("save_poll", %{"poll" => params}, socket) do
-    case Lepatriinu.Polling.current().create_poll(params) do
+    case Polling.current().create_poll(params) do
       {:ok, _poll} ->
         {:noreply, push_navigate(socket, to: "/")}
 
