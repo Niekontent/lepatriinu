@@ -4,6 +4,7 @@ defmodule Lepatriinu.Votes.Services do
   """
 
   alias Lepatriinu.Votes
+  alias Lepatriinu.Votes.Vote
 
   defmodule CastVoteService do
     @doc """
