@@ -14,12 +14,12 @@ defmodule Lepatriinu.Polling do
   @doc """
   Fetches all polls.
   """
-  @callback get_all() :: list(Poll.t())
+  @callback get_all_polls() :: list(Poll.t())
 
   @doc """
   Fetches a poll.
   """
-  @callback get(id :: integer()) :: Poll.t() | nil
+  @callback get_poll(id :: integer()) :: Poll.t() | nil
 
   @doc """
   Creates a user vote in the poll.
@@ -54,9 +54,9 @@ defmodule Lepatriinu.PollingImpl do
 
   defdelegate create_poll(params), to: Polls, as: :create
 
-  defdelegate get_all(), to: Polls, as: :get_all
+  defdelegate get_all_polls(), to: Polls, as: :get_all
 
-  defdelegate get(id), to: Polls, as: :get
+  defdelegate get_poll(id), to: Polls, as: :get
 
   defdelegate vote(params), to: Services.CastVoteService, as: :call
 

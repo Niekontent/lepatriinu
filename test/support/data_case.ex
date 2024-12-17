@@ -24,6 +24,7 @@ defmodule Lepatriinu.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Lepatriinu.DataCase
+      import Lepatriinu.Factories
     end
   end
 

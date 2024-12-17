@@ -26,6 +26,6 @@ defmodule Lepatriinu.Polls.Poll do
     poll
     |> cast(attrs, @required)
     |> validate_required(@required)
-    |> validate_length(:options, min: 2, message: "Minimum two options required.")
+    |> validate_length(:options, min: 2)
   end
 end
